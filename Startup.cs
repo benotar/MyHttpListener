@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text;
 using HttpLearning.Data.Interfaces;
+using HttpLearning.Data.Storages;
 using HttpLearning.Models;
 using HttpLearning.Providers;
 
@@ -112,7 +113,7 @@ public class Startup
         }
         catch (ArgumentException ex)
         {
-            response.StatusCode = (int)HttpStatusCode.BadRequest;
+            response.StatusCode = (int)HttpStatusCode.Conflict;
 
             buffer = Encoding.UTF8.GetBytes(ex.Message);
         }
@@ -129,6 +130,14 @@ public class Startup
             await response.OutputStream.WriteAsync(buffer); // CancellationToken = default (CancellationToken.None)
 
             response.OutputStream.Close();
+        }
+    }
+
+    public void EnsureEfCoreDatabaseUsed()
+    {
+        if (_todoStorage is TodoStorageDbContext)
+        {
+            _todoStorage.Dispose();
         }
     }
 }

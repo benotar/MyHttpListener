@@ -30,7 +30,7 @@ public class TodoHttpListener
             
             await Console.Out.WriteAsync($"Server is listening {_port} port...");
 
-            while (true)
+            while (_httpListener.IsListening)
             {
                 var httpContext = await _httpListener.GetContextAsync();
 

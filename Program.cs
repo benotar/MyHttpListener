@@ -28,3 +28,5 @@ var serverConfig = new Startup(server, todoStorage);
 serverConfig.ConfigureServerEvents();
 
 await server.ListenAsync();
+
+serverConfig.EnsureEfCoreDatabaseUsed();
